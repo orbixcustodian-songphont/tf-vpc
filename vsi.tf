@@ -20,7 +20,7 @@ resource ibm_is_instance test-vsi {
 
   # Add SSH key
   keys = [
-    for key in data.ibm_is_ssh_keys.existing_keys.keys : key.id if key.name == "orbix-vsi-ssh"
+    ibm_is_ssh_key.orbix_key.id
   ]
 }
 
