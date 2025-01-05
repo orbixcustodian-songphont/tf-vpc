@@ -1,0 +1,27 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform/
+.terraform.lock.hcl
+
+# Local .env files
+.env
+.env.*
+
+# Sensitive files
+*.pem
+*.key
+*.crt
+*.cer
+*.pfx
+
+# IBM Cloud specific files
+ibmcloud_api_key.json
