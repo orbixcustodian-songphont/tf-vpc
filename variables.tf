@@ -15,3 +15,14 @@ variable vsi_name {
   type        = string
   default     = ""
 }
+
+variable "create_vpc" {
+  type    = bool
+  default = false
+}
+
+variable "existing_vpc_id" {
+  description = "Existing VPC ID"
+  type        = string
+  default     = ""
+}

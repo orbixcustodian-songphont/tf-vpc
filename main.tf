@@ -1,10 +1,34 @@
 # Create VPC
 resource "ibm_is_vpc" "vpc" {
-  name = var.vpc_name
+  count = var.create_vpc && var.existing_vpc_id == "" ? 1 : 0
+  name  = var.vpc_name
+}
+
+resource "ibm_is_security_group" "sg" {
+  name = "sg"
+  vpc  = local.vpc_id
+  depends_on = [ ibm_is_vpc.vpc ]
+}
+
+resource "ibm_is_security_group_rule" "ssh" {
+  group =  ibm_is_security_group.sg.id
+  direction         = "inbound"
+  local             = "0.0.0.0/0"
+  remote            = "0.0.0.0/0"
+  tcp {
+    port_min = 22
+    port_max = 22
+  }
+}
+
+resource "ibm_is_security_group_target" "sg_target" {
+  target = ibm_is_virtual_network_interface.is-vni-vsi.id
+  security_group = ibm_is_security_group.sg.id
+  depends_on = [ ibm_is_security_group.sg ]
 }
 
 output "vpc_id" {
-  value = ibm_is_vpc.vpc.id
+  value = local.vpc_id
 }
 
 output "public_gateway_ids" {
