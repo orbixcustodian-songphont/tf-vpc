@@ -46,10 +46,6 @@ output "subnet_ids" {
     ibm_is_subnet.subnet_c.id
   ]
 }
-output "existing_keys" {
-  value = data.ibm_is_ssh_keys.existing_keys.keys
-}
-
 output "vsi" {
   value = ibm_is_instance.test-vsi
 }
