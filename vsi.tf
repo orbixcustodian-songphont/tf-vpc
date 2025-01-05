@@ -22,6 +22,22 @@ resource ibm_is_instance test-vsi {
   keys = [
     ibm_is_ssh_key.orbix_key.id
   ]
+
+  user_data = <<-EOT
+#cloud-config
+package_update: true
+packages:
+  - ansible-core
+runcmd:
+  - [ "/bin/bash", "-c", "set -e && dnf update -y && dnf install -y ansible-core" ]
+  - [ "/bin/bash", "-c", "DEVICE=/dev/vdd; MOUNT_POINT=/home; if [ -b $DEVICE ]; then \
+        mkdir -p $MOUNT_POINT; \
+        if ! blkid $DEVICE; then mkfs.xfs $DEVICE; fi; \
+        BACKUP_DIR=/tmp/home_backup; mkdir -p $BACKUP_DIR; rsync -a $MOUNT_POINT/ $BACKUP_DIR/; \
+        mount $DEVICE $MOUNT_POINT; \
+        UUID=$(blkid -s UUID -o value $DEVICE); \
+        echo \"UUID=$UUID $MOUNT_POINT xfs defaults 0 0\" >> /etc/fstab; fi" ]
+EOT
 }
 
 resource ibm_is_instance_volume_attachment vol-home-attach {

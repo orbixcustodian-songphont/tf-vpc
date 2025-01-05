@@ -24,7 +24,7 @@ resource "ibm_is_security_group_rule" "ssh" {
 resource "ibm_is_security_group_target" "sg_target" {
   target = ibm_is_virtual_network_interface.is-vni-vsi.id
   security_group = ibm_is_security_group.sg.id
-  depends_on = [ ibm_is_security_group.sg ]
+  depends_on = [ ibm_is_security_group.sg, ibm_is_instance.test-vsi ]
 }
 
 output "vpc_id" {
@@ -46,6 +46,7 @@ output "subnet_ids" {
     ibm_is_subnet.subnet_c.id
   ]
 }
+
 output "vsi" {
   value = ibm_is_instance.test-vsi
 }
