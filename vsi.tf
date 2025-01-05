@@ -29,7 +29,7 @@ package_update: true
 packages:
   - ansible-core
 runcmd:
-  - [ "/bin/bash", "-c", "set -e && dnf update -y && dnf install -y ansible-core" ]
+  - [ "/bin/bash", "-c", "set -e && dnf update -y && dnf install git ansible-core -y" ]
   - [ "/bin/bash", "-c", "DEVICE=/dev/vdd; MOUNT_POINT=/home; if [ -b $DEVICE ]; then \
         mkdir -p $MOUNT_POINT; \
         if ! blkid $DEVICE; then mkfs.xfs $DEVICE; fi; \
@@ -37,6 +37,7 @@ runcmd:
         mount $DEVICE $MOUNT_POINT; \
         UUID=$(blkid -s UUID -o value $DEVICE); \
         echo \"UUID=$UUID $MOUNT_POINT xfs defaults 0 0\" >> /etc/fstab; fi" ]
+  - [ "/bin/bash", "-c", "git clone https://github.com/jasoncalalang/ansible.git" ]
 EOT
 }
 
