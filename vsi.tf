@@ -6,7 +6,7 @@ resource ibm_is_volume home-vol {
 }
 
 resource ibm_is_instance test-vsi {
-  name    = "test-vsi"
+  name    = var.vsi_name
   profile = "bx2-2x8"
   image   = "r022-d5e7a447-981e-4ffe-906e-1ff648690bf9"
   zone    = "jp-tok-1"
@@ -19,7 +19,7 @@ resource ibm_is_instance test-vsi {
 
   # Add SSH key
   keys = [
-    ibm_is_ssh_key.orbix_key.id,
+    for key in data.ibm_is_ssh_keys.existing_keys.keys : key.id if key.name == "orbix-vsi-ssh"
   ]
 }
 

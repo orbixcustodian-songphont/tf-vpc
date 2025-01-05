@@ -1,6 +1,6 @@
 # Create VPC
 resource "ibm_is_vpc" "vpc" {
-  name = "orbix-test"
+  name = var.vpc_name
 }
 
 output "vpc_id" {
@@ -21,4 +21,11 @@ output "subnet_ids" {
     ibm_is_subnet.subnet_b.id,
     ibm_is_subnet.subnet_c.id
   ]
+}
+output "existing_keys" {
+  value = data.ibm_is_ssh_keys.existing_keys.keys
+}
+
+output "vsi" {
+  value = ibm_is_instance.test-vsi
 }
