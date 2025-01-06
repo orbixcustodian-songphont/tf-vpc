@@ -38,3 +38,9 @@ variable "workstation_public_ip" {
   type        = string
   default     = ""
 }
+
+variable "ssh_private_key" {
+  description = "SSH Private Key"
+  type        = string
+  default     = ""
+}
