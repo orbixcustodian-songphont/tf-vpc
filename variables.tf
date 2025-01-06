@@ -32,3 +32,9 @@ variable "rhel_image" {
   type        = string
   default     = ""
 }
+
+variable "workstation_public_ip" {
+  description = "Public IP of your workstation in CIDR notation"
+  type        = string
+  default     = ""
+}
