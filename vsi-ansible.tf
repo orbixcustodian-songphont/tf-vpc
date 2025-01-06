@@ -4,7 +4,7 @@ resource ibm_is_instance ansible-vsi {
   image   = "r022-d5e7a447-981e-4ffe-906e-1ff648690bf9"
   zone    = "jp-tok-1"
   vpc     = ibm_is_vpc.vpc[0].id
-  depends_on = [ ibm_is_ssh_key.orbix_key ]
+  depends_on = [ ibm_is_ssh_key.ssh-key ]
   
   # Attach primary network interface
   primary_network_interface {
@@ -13,7 +13,7 @@ resource ibm_is_instance ansible-vsi {
 
   # Add SSH key
   keys = [
-    ibm_is_ssh_key.orbix_key.id
+    ibm_is_ssh_key.ssh-key.id
   ]
 
   user_data = <<-EOT

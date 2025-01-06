@@ -55,7 +55,7 @@ resource "ibm_is_instance" "rhel-vsi" {
   zone       = "jp-tok-1"
   vpc        = ibm_is_vpc.vpc[0].id
   depends_on = [
-    ibm_is_ssh_key.orbix_key, 
+    ibm_is_ssh_key.ssh-key, 
     ibm_is_volume.rhel-home-vsi-vol, 
     ibm_is_volume.rhel-tmp-vsi-vol, 
     ibm_is_volume.rhel-var-vsi-vol, 
@@ -70,66 +70,9 @@ resource "ibm_is_instance" "rhel-vsi" {
     subnet = ibm_is_subnet.subnet_a.id
   }
 
-
-#   user_data = <<-EOT
-# #cloud-config
-# # Cloud-init configuration for mounting block devices without loops
-
-# runcmd:
-#   - [ "/bin/bash", "-c", "DEVICE=/dev/vdd; MOUNT_POINT=/home; if [ -b $DEVICE ]; then \
-#         mkdir -p $MOUNT_POINT; \
-#         if ! blkid $DEVICE; then mkfs.xfs $DEVICE; fi; \
-#         BACKUP_DIR=/tmp/home_backup; mkdir -p $BACKUP_DIR; rsync -a $MOUNT_POINT/ $BACKUP_DIR/; \
-#         mount $DEVICE $MOUNT_POINT; \
-#         UUID=$(blkid -s UUID -o value $DEVICE); \
-#         echo \"UUID=$UUID $MOUNT_POINT xfs defaults 0 0\" >> /etc/fstab; fi" ]
-#   - [ "/bin/bash", "-c", "DEVICE=/dev/vde; MOUNT_POINT=/var; if [ -b $DEVICE ]; then \
-#         mkdir -p $MOUNT_POINT; \
-#         if ! blkid $DEVICE; then mkfs.xfs $DEVICE; fi; \
-#         BACKUP_DIR=/tmp/var_backup; mkdir -p $BACKUP_DIR; rsync -a $MOUNT_POINT/ $BACKUP_DIR/; \
-#         mount $DEVICE $MOUNT_POINT; \
-#         UUID=$(blkid -s UUID -o value $DEVICE); \
-#         echo \"UUID=$UUID $MOUNT_POINT xfs defaults 0 0\" >> /etc/fstab; fi" ]
-#   - [ "/bin/bash", "-c", "DEVICE=/dev/vdf; MOUNT_POINT=/tmp; if [ -b $DEVICE ]; then \
-#         mkdir -p $MOUNT_POINT; \
-#         if ! blkid $DEVICE; then mkfs.xfs $DEVICE; fi; \
-#         BACKUP_DIR=/tmp/tmp_backup; mkdir -p $BACKUP_DIR; rsync -a $MOUNT_POINT/ $BACKUP_DIR/; \
-#         mount $DEVICE $MOUNT_POINT; \
-#         UUID=$(blkid -s UUID -o value $DEVICE); \
-#         echo \"UUID=$UUID $MOUNT_POINT xfs defaults 0 0\" >> /etc/fstab; fi" ]
-#   - [ "/bin/bash", "-c", "DEVICE=/dev/vdg; MOUNT_POINT=/var/log; if [ -b $DEVICE ]; then \
-#         mkdir -p $MOUNT_POINT; \
-#         if ! blkid $DEVICE; then mkfs.xfs $DEVICE; fi; \
-#         BACKUP_DIR=/tmp/var_log_backup; mkdir -p $BACKUP_DIR; rsync -a $MOUNT_POINT/ $BACKUP_DIR/; \
-#         mount $DEVICE $MOUNT_POINT; \
-#         UUID=$(blkid -s UUID -o value $DEVICE); \
-#         echo \"UUID=$UUID $MOUNT_POINT xfs defaults 0 0\" >> /etc/fstab; fi" ]
-#   - [ "/bin/bash", "-c", "DEVICE=/dev/vdh; MOUNT_POINT=/var/log/audit; if [ -b $DEVICE ]; then \
-#         mkdir -p $MOUNT_POINT; \
-#         if ! blkid $DEVICE; then mkfs.xfs $DEVICE; fi; \
-#         BACKUP_DIR=/tmp/var_log_audit_backup; mkdir -p $BACKUP_DIR; rsync -a $MOUNT_POINT/ $BACKUP_DIR/; \
-#         mount $DEVICE $MOUNT_POINT; \
-#         UUID=$(blkid -s UUID -o value $DEVICE); \
-#         echo \"UUID=$UUID $MOUNT_POINT xfs defaults 0 0\" >> /etc/fstab; fi" ]
-#   - [ "/bin/bash", "-c", "DEVICE=/dev/vdi; MOUNT_POINT=/var/tmp; if [ -b $DEVICE ]; then \
-#         mkdir -p $MOUNT_POINT; \
-#         if ! blkid $DEVICE; then mkfs.xfs $DEVICE; fi; \
-#         BACKUP_DIR=/tmp/var_tmp_backup; mkdir -p $BACKUP_DIR; rsync -a $MOUNT_POINT/ $BACKUP_DIR/; \
-#         mount $DEVICE $MOUNT_POINT; \
-#         UUID=$(blkid -s UUID -o value $DEVICE); \
-#         echo \"UUID=$UUID $MOUNT_POINT xfs defaults,nodev,nosuid,noexec 0 0\" >> /etc/fstab; fi" ]
-#   - [ "/bin/bash", "-c", "DEVICE=/dev/vdj; MOUNT_POINT=/dev/shm; if [ -b $DEVICE ]; then \
-#         mkdir -p $MOUNT_POINT; \
-#         if ! blkid $DEVICE; then mkfs.xfs $DEVICE; fi; \
-#         BACKUP_DIR=/tmp/dev_shm_backup; mkdir -p $BACKUP_DIR; rsync -a $MOUNT_POINT/ $BACKUP_DIR/; \
-#         mount $DEVICE $MOUNT_POINT; \
-#         UUID=$(blkid -s UUID -o value $DEVICE); \
-#         echo \"UUID=$UUID $MOUNT_POINT xfs defaults,nodev,nosuid,noexec 0 0\" >> /etc/fstab; fi" ]
-#   EOT
-
   # Add SSH key
   keys = [
-    ibm_is_ssh_key.orbix_key.id
+    ibm_is_ssh_key.ssh-key.id
   ]
 }
 
