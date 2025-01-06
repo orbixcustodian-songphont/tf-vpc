@@ -117,7 +117,3 @@ resource "ibm_is_instance_volume_attachment" "rhel-dev-shm-audit-attach" {
   volume                           = ibm_is_volume.rhel-dev-shm-audit-vsi-vol.id
   delete_volume_on_instance_delete = true
 }
-
-output "vsi_ip" {
-    value = ibm_is_instance.rhel-vsi.primary_network_interface[0].primary_ipv4_address
-}

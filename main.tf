@@ -13,8 +13,8 @@ resource "ibm_is_security_group" "sg" {
 resource "ibm_is_security_group_rule" "ssh" {
   group =  ibm_is_security_group.sg.id
   direction         = "inbound"
-  local             = var.workstation_public_ip
-  remote            = "0.0.0.0/0"
+  remote            = var.workstation_public_ip
+  local             = "0.0.0.0/0"
   tcp {
     port_min = 22
     port_max = 22
@@ -22,7 +22,7 @@ resource "ibm_is_security_group_rule" "ssh" {
 }
 
 resource "ibm_is_security_group_target" "sg_target" {
-  target = ibm_is_virtual_network_interface.is-vni-vsi.id
+  target = ibm_is_instance.ansible-vsi.primary_network_interface[0].id
   security_group = ibm_is_security_group.sg.id
   depends_on = [ ibm_is_security_group.sg, ibm_is_instance.ansible-vsi ]
 }
