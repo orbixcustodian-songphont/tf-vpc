@@ -1,10 +1,3 @@
-resource ibm_is_volume home-vol {
-  name      = "home-vol-123"
-  profile   = "general-purpose"    # or "5iops-tier", "10iops-tier", etc.
-  capacity  = 10                   # in GB
-  zone      = "jp-tok-1"        # adjust to match your region/zone
-}
-
 resource ibm_is_instance ansible-vsi {
   name    = var.vsi_name
   profile = "bx2-2x8"
@@ -31,15 +24,6 @@ packages:
 runcmd:
   - [ "/bin/bash", "-c", "set -e && dnf update -y && dnf install git ansible-core -y && ansible-galaxy collection install community.general ansible.posix" ]
 EOT
-}
-
-resource ibm_is_instance_volume_attachment vol-home-attach {
-  instance = ibm_is_instance.ansible-vsi.id
-  volume   = ibm_is_volume.home-vol.id
-
-  # Setting this to true means the volume will be deleted
-  # when you delete the VSI.
-  delete_volume_on_instance_delete = true
 }
 
 resource "ibm_is_virtual_network_interface" "is-vni-vsi" {
