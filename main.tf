@@ -13,7 +13,7 @@ resource "ibm_is_security_group" "sg" {
 resource "ibm_is_security_group_rule" "ssh" {
   group =  ibm_is_security_group.sg.id
   direction         = "inbound"
-  local             = vars.workstation_public_ip
+  local             = var.workstation_public_ip
   remote            = "0.0.0.0/0"
   tcp {
     port_min = 22
