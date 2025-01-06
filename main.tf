@@ -5,7 +5,7 @@ resource "ibm_is_vpc" "vpc" {
 }
 
 resource "ibm_is_security_group" "sg" {
-  name = "sg"
+  name = "${var.vpc_name}-sg"
   vpc  = local.vpc_id
   depends_on = [ ibm_is_vpc.vpc ]
 }
