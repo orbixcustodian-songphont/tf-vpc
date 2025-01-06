@@ -10,7 +10,7 @@ variable "vpc_name" {
   default     = "test-vpc"
 }
 
-variable vsi_name {
+variable "vsi_name" {
   description = "VSI Name"
   type        = string
   default     = ""
