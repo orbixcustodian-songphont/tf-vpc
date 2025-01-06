@@ -26,3 +26,9 @@ variable "existing_vpc_id" {
   type        = string
   default     = ""
 }
+
+variable "rhel_image" {
+  description = "RHEL Image ID"
+  type        = string
+  default     = ""
+}

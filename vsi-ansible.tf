@@ -5,7 +5,7 @@ resource ibm_is_volume home-vol {
   zone      = "jp-tok-1"        # adjust to match your region/zone
 }
 
-resource ibm_is_instance test-vsi {
+resource ibm_is_instance ansible-vsi {
   name    = var.vsi_name
   profile = "bx2-2x8"
   image   = "r022-d5e7a447-981e-4ffe-906e-1ff648690bf9"
@@ -29,20 +29,12 @@ package_update: true
 packages:
   - ansible-core
 runcmd:
-  - [ "/bin/bash", "-c", "set -e && dnf update -y && dnf install git ansible-core -y" ]
-  - [ "/bin/bash", "-c", "DEVICE=/dev/vdd; MOUNT_POINT=/home; if [ -b $DEVICE ]; then \
-        mkdir -p $MOUNT_POINT; \
-        if ! blkid $DEVICE; then mkfs.xfs $DEVICE; fi; \
-        BACKUP_DIR=/tmp/home_backup; mkdir -p $BACKUP_DIR; rsync -a $MOUNT_POINT/ $BACKUP_DIR/; \
-        mount $DEVICE $MOUNT_POINT; \
-        UUID=$(blkid -s UUID -o value $DEVICE); \
-        echo \"UUID=$UUID $MOUNT_POINT xfs defaults 0 0\" >> /etc/fstab; fi" ]
-  - [ "/bin/bash", "-c", "git clone https://github.com/jasoncalalang/ansible.git" ]
+  - [ "/bin/bash", "-c", "set -e && dnf update -y && dnf install git ansible-core -y && ansible-galaxy collection install community.general ansible.posix" ]
 EOT
 }
 
 resource ibm_is_instance_volume_attachment vol-home-attach {
-  instance = ibm_is_instance.test-vsi.id
+  instance = ibm_is_instance.ansible-vsi.id
   volume   = ibm_is_volume.home-vol.id
 
   # Setting this to true means the volume will be deleted
@@ -59,7 +51,7 @@ resource "ibm_is_virtual_network_interface" "is-vni-vsi" {
 }
 
 resource "ibm_is_instance_network_interface_floating_ip" "vni-test" {
-  instance          = ibm_is_instance.test-vsi.id
-  network_interface = ibm_is_instance.test-vsi.primary_network_interface[0].id
+  instance          = ibm_is_instance.ansible-vsi.id
+  network_interface = ibm_is_instance.ansible-vsi.primary_network_interface[0].id
   floating_ip       = ibm_is_floating_ip.fip1.id
 }
