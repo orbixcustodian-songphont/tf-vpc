@@ -8,14 +8,6 @@ output "vpc_id" {
   value = local.vpc_id
 }
 
-output "public_gateway_ids" {
-  value = [
-    ibm_is_public_gateway.public_gateway_a.id,
-    ibm_is_public_gateway.public_gateway_b.id,
-    ibm_is_public_gateway.public_gateway_c.id
-  ]
-}
-
 output "subnet_ids" {
   value = [
     ibm_is_subnet.subnet_a.id,
