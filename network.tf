@@ -27,7 +27,7 @@ data "ibm_is_vpc" "existing_vpc" {
 }
 
 resource "ibm_is_network_acl" "allow-all" {
-  name = "allow-all"
+  name = "${var.vpc_name}-allow-all"
   vpc  = local.vpc_id
 }
 
@@ -38,6 +38,14 @@ resource "ibm_is_network_acl_rule" "allow-all-outbound" {
   destination = "0.0.0.0/0"
   direction   = "outbound"
   network_acl = ibm_is_network_acl.allow-all.id
+  tcp {
+    port_min = 0
+    port_max = 65535
+  }
+  udp {
+    port_min = 0
+    port_max = 65535
+  }
   icmp {
     code = 1
     type = 1
@@ -51,6 +59,14 @@ resource "ibm_is_network_acl_rule" "allow-all-inbound" {
   destination = "0.0.0.0/0"
   direction   = "inbound"
   network_acl = ibm_is_network_acl.allow-all.id
+  tcp {
+    port_min = 0
+    port_max = 65535
+  }
+  udp {
+    port_min = 0
+    port_max = 65535
+  }
   icmp {
     code = 1
     type = 1
@@ -103,7 +119,8 @@ resource "ibm_is_security_group_rule" "ssh" {
 resource "ibm_is_security_group_rule" "http" {
   group = ibm_is_security_group.sg.id
   direction = "inbound"
-  remote = "0.0.0.0/0"
+  remote            = var.workstation_public_ip
+  local             = "0.0.0.0/0"
   tcp {
     port_min = 80
     port_max = 80
@@ -113,10 +130,22 @@ resource "ibm_is_security_group_rule" "http" {
 resource "ibm_is_security_group_rule" "https" {
   group = ibm_is_security_group.sg.id
   direction = "inbound"
-  remote = "0.0.0.0/0"
+  remote            = var.workstation_public_ip
+  local             = "0.0.0.0/0"
   tcp {
     port_min = 443
     port_max = 443
+  }
+}
+
+resource "ibm_is_security_group_rule" "artifactory" {
+  group = ibm_is_security_group.sg.id
+  direction = "inbound"
+  remote            = var.workstation_public_ip
+  local             = "0.0.0.0/0"
+  tcp {
+    port_min = 8081
+    port_max = 8081
   }
 }
 
