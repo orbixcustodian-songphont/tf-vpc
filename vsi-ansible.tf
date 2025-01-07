@@ -1,5 +1,5 @@
 resource ibm_is_instance ansible-vsi {
-  name    = var.vsi_name
+  name    = var.ansible_vsi_name
   profile = "bx2-2x8"
   image   = "r022-d5e7a447-981e-4ffe-906e-1ff648690bf9"
   zone    = "jp-tok-1"
