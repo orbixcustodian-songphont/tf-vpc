@@ -7,14 +7,14 @@ using the provided variables.
 ## Custom Variables
 Below is a quick reference for the variables in `custom.tfvars`: (Note: all variables are required)
 
-- ibmcloud_api_key: IBM Cloud API key with VPC permissions
-- vpc_name: Name for your VPC
-- vsi_name: Name for the VSI
-- rhel_image: RHEL image name or ID
-- workstation_public_ip: Your workstation’s public IP in CIDR format
-- create_vpc: Set to true if you want Terraform to create a new VPC
-- existing_vpc_id: Provide an existing VPC ID if not creating a new one
-- ssh_private_key: SSH private key for accessing the VSI
+- `ibmcloud_api_key`: IBM Cloud API key with VPC permissions
+- `vpc_name`: Name for your VPC
+- `vsi_name`: Name for the VSI
+- `rhel_image`: RHEL image name or ID
+- `workstation_public_ip`: Your workstation’s public IP in CIDR format
+- `create_vpc`: Set to true if you want Terraform to create a new VPC
+- `existing_vpc_id`: Provide an existing VPC ID if not creating a new one
+- `ssh_private_key`: SSH private key for accessing the VSI
 
 ## Usage
 1. Create a new variable file called `custom.tfvars`
