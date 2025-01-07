@@ -1,6 +1,3 @@
-locals {
-  vpc_id = var.existing_vpc_id != "" ? var.existing_vpc_id : (var.create_vpc ? ibm_is_vpc.vpc[0].id : data.ibm_is_vpc.existing_vpc[0].id)
-}
 
 # Define Public Gateway
 # resource "ibm_is_public_gateway" "public_gateway_a" {
@@ -32,7 +29,7 @@ resource "ibm_is_network_acl" "allow-all" {
 }
 
 resource "ibm_is_network_acl_rule" "allow-outbound-tcp" {
-  name        = "outbound"
+  name        = "${var.vpc_name}-outbound-tcp"
   action      = "allow"
   source      = "0.0.0.0/0"
   destination = "0.0.0.0/0"
@@ -45,7 +42,7 @@ resource "ibm_is_network_acl_rule" "allow-outbound-tcp" {
 }
 
 resource "ibm_is_network_acl_rule" "allow-outbound-udp" {
-  name        = "outbound"
+  name        = "${var.vpc_name}-outbound-udp"
   action      = "allow"
   source      = "0.0.0.0/0"
   destination = "0.0.0.0/0"
@@ -58,7 +55,7 @@ resource "ibm_is_network_acl_rule" "allow-outbound-udp" {
 }
 
 resource "ibm_is_network_acl_rule" "allow-all-inbound-tcp" {
-  name        = "inbound"
+  name        = "${var.vpc_name}-inbound-tcp"
   action      = "allow"
   source      = "0.0.0.0/0"
   destination = "0.0.0.0/0"
@@ -71,7 +68,7 @@ resource "ibm_is_network_acl_rule" "allow-all-inbound-tcp" {
 }
 
 resource "ibm_is_network_acl_rule" "allow-all-inbound-udp" {
-  name        = "inbound"
+  name        = "${var.vpc_name}-inbound-udp"
   action      = "allow"
   source      = "0.0.0.0/0"
   destination = "0.0.0.0/0"
@@ -106,81 +103,3 @@ resource "ibm_is_subnet" "subnet_c" {
   ipv4_cidr_block = "10.244.128.0/18"
 }
 
-# Define Security Group
-resource "ibm_is_security_group" "sg-ansible" {
-  name = "${var.vpc_name}-ansible-sg"
-  vpc  = local.vpc_id
-  depends_on = [ ibm_is_vpc.vpc ]
-}
-
-resource "ibm_is_security_group" "sg-artifactory" {
-  name = "${var.vpc_name}-ansible-sg"
-  vpc  = local.vpc_id
-  depends_on = [ ibm_is_vpc.vpc ]
-}
-
-resource "ibm_is_security_group_rule" "ssh-ansible" {
-  group =  ibm_is_security_group.sg-ansible.id
-  direction         = "inbound"
-  remote            = var.workstation_public_ip
-  local             = "0.0.0.0/0"
-  tcp {
-    port_min = 22
-    port_max = 22
-  }
-}
-
-resource "ibm_is_security_group_rule" "ssh-artifactory" {
-  group =  ibm_is_security_group.sg-artifactory.id
-  direction         = "inbound"
-  remote            = var.workstation_public_ip
-  local             = "0.0.0.0/0"
-  tcp {
-    port_min = 22
-    port_max = 22
-  }
-}
-
-resource "ibm_is_security_group_rule" "http" {
-  group             = ibm_is_security_group.sg-artifactory.id
-  direction         = "inbound"
-  remote            = var.workstation_public_ip
-  local             = "0.0.0.0/0"
-  tcp {
-    port_min = 80
-    port_max = 80
-  }
-}
-
-resource "ibm_is_security_group_rule" "https" {
-  group             = ibm_is_security_group.sg-artifactory.id
-  direction         = "inbound"
-  remote            = var.workstation_public_ip
-  local             = "0.0.0.0/0"
-  tcp {
-    port_min = 443
-    port_max = 443
-  }
-}
-
-resource "ibm_is_security_group_rule" "artifactory" {
-  group             = ibm_is_security_group.sg-artifactory.id
-  direction         = "inbound"
-  remote            = var.workstation_public_ip
-  local             = "0.0.0.0/0"
-  tcp {
-    port_min = 8081
-    port_max = 8081
-  }
-}
-
-resource "ibm_is_security_group_target" "ansible_sg_target" {
-  target         = ibm_is_instance.ansible-vsi.primary_network_interface[0].id
-  security_group = ibm_is_security_group.sg-ansible.id
-  depends_on     = [ ibm_is_security_group.sg-ansible, ibm_is_instance.ansible-vsi ]
-}
-resource "ibm_is_security_group_target" "artifactory_sg_target" {
-  target         = ibm_is_instance.artifactory-vsi.primary_network_interface[0].id
-  security_group = ibm_is_security_group.sg-artifactory.id
-  depends_on     = [ ibm_is_security_group.sg-artifactory, ibm_is_instance.artifactory-vsi ]
-}
