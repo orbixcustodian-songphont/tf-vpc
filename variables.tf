@@ -10,7 +10,7 @@ variable "vpc_name" {
   default     = "test-vpc"
 }
 
-variable "vsi_name" {
+variable "ansible_vsi_name" {
   description = "VSI Name"
   type        = string
   default     = ""
@@ -41,6 +41,12 @@ variable "workstation_public_ip" {
 
 variable "ssh_private_key" {
   description = "SSH Private Key"
+  type        = string
+  default     = ""
+}
+
+variable "artifactory_vsi_name" {
+  description = "Artifactory VSI Name"
   type        = string
   default     = ""
 }
