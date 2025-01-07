@@ -3,17 +3,17 @@ locals {
 }
 
 # Define Public Gateway
-resource "ibm_is_public_gateway" "public_gateway_a" {
-  name = "public-gateway-zone-a"
-  vpc  = local.vpc_id
-  zone = "jp-tok-1"
-}
+# resource "ibm_is_public_gateway" "public_gateway_a" {
+#   name = "public-gateway-zone-a"
+#   vpc  = local.vpc_id
+#   zone = "jp-tok-1"
+# }
 
-resource "ibm_is_public_gateway" "public_gateway_b" {
-  name = "public-gateway-zone-b"
-  vpc  = local.vpc_id
-  zone = "jp-tok-2"
-}
+# resource "ibm_is_public_gateway" "public_gateway_b" {
+#   name = "public-gateway-zone-b"
+#   vpc  = local.vpc_id
+#   zone = "jp-tok-2"
+# }
 
 resource "ibm_is_public_gateway" "public_gateway_c" {
   name = "public-gateway-zone-c"
@@ -80,4 +80,28 @@ resource "ibm_is_subnet" "subnet_c" {
   zone           = "jp-tok-3"
   public_gateway = ibm_is_public_gateway.public_gateway_c.id
   ipv4_cidr_block = "10.244.128.0/18"
+}
+
+# Define Security Group
+resource "ibm_is_security_group" "sg" {
+  name = "${var.vpc_name}-sg"
+  vpc  = local.vpc_id
+  depends_on = [ ibm_is_vpc.vpc ]
+}
+
+resource "ibm_is_security_group_rule" "ssh" {
+  group =  ibm_is_security_group.sg.id
+  direction         = "inbound"
+  remote            = var.workstation_public_ip
+  local             = "0.0.0.0/0"
+  tcp {
+    port_min = 22
+    port_max = 22
+  }
+}
+
+resource "ibm_is_security_group_target" "sg_target" {
+  target = ibm_is_instance.ansible-vsi.primary_network_interface[0].id
+  security_group = ibm_is_security_group.sg.id
+  depends_on = [ ibm_is_security_group.sg, ibm_is_instance.ansible-vsi ]
 }
