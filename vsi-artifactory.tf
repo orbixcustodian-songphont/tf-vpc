@@ -31,7 +31,8 @@ resource ibm_is_instance artifactory-vsi {
     # Install prerequisites
     sudo dnf install -y java-11-openjdk wget curl
 
-    echo '${var.ssh_private_key}' > /root/.ssh/id_rsa && chmod 600 /root/.ssh/id_rsa
+    # Decode and save the SSH private key
+    echo '${var.ssh_private_key}' | base64 --decode > /root/.ssh/id_rsa && chmod 600 /root/.ssh/id_rsa
 
     # Prepare and mount the volume
     sudo mkfs.ext4 /dev/vdd
@@ -59,7 +60,7 @@ resource ibm_is_instance artifactory-vsi {
     # Start and enable Artifactory
     sudo systemctl start artifactory
     sudo systemctl enable artifactory
-EOT
+  EOT
 }
 
 resource "ibm_is_instance_volume_attachment" "artifactory-vol-attach" {
