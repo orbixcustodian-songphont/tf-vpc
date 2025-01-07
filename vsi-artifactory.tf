@@ -77,7 +77,7 @@ resource "ibm_is_virtual_network_interface" "artifactory-vni-vsi" {
   subnet = ibm_is_subnet.subnet_a.id
 }
 
-resource "ibm_is_instance_network_interface_floating_ip" "vni-test" {
+resource "ibm_is_instance_network_interface_floating_ip" "artifactory-vni-binding" {
   instance          = ibm_is_instance.artifactory-vsi.id
   network_interface = ibm_is_instance.artifactory-vsi.primary_network_interface[0].id
   floating_ip       = ibm_is_floating_ip.fip3.id
