@@ -5,7 +5,7 @@ This Terraform configuration provisions a VPC in IBM Cloud with subnets, gateway
 using the provided variables.
 
 ## Custom Variables
-Below is a quick reference for the variables in custom.tfvars: (Note: all variables are required)
+Below is a quick reference for the variables in `custom.tfvars`: (Note: all variables are required)
 
 - ibmcloud_api_key: IBM Cloud API key with VPC permissions
 - vpc_name: Name for your VPC
@@ -17,9 +17,10 @@ Below is a quick reference for the variables in custom.tfvars: (Note: all variab
 - ssh_private_key: SSH private key for accessing the VSI
 
 ## Usage
-1. Update the variables in custom.tfvars to match your environment.
-2. Run:
+1. Create a new variable file called `custom.tfvars`
+1. Update the variables in `custom.tfvars` to match your environment.
+1. Run:
    - `terraform init`
    - `terraform plan --var-file=custom.tfvars`
    - `terraform apply --var-file=custom.tfvars`
-3. Wait for the resources to be provisioned in your IBM Cloud account.
+1. Wait for the resources to be provisioned in your IBM Cloud account.
