@@ -39,15 +39,18 @@ resource "null_resource" "provision_artifactory" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo dnf update -y",
-      "sudo dnf install -y java-11-openjdk wget curl",
+      "dnf update -y",
+      "dnf install -y java-11-openjdk wget curl wget",
       "echo '${local.ssh_private_key_artifactory}' | base64 --decode > /root/.ssh/id_rsa && chmod 600 /root/.ssh/id_rsa",
-      "echo '${local.ssh_public_key}' | base64 --decode > /root/.ssh/id_rsa.pub && chmod 600 /root/.ssh/id_rsa.pub",
-      "sudo mkfs.ext4 /dev/vdd",
-      "sudo mkdir -p /var/opt/jfrog/artifactory",
-      "sudo mount /dev/vdd /var/opt/jfrog/artifactory",
-      "echo '/dev/vdd /var/opt/jfrog/artifactory ext4 defaults 0 0' | sudo tee -a /etc/fstab",
-      "sudo chown -R artifactory:artifactory /var/opt/jfrog/artifactory"
+      "mkfs.ext4 /dev/vdd",
+      "mkdir -p /var/opt/jfrog/artifactory",
+      "mount /dev/vdd /var/opt/jfrog/artifactory",
+      "echo '/dev/vdd /var/opt/jfrog/artifactory ext4 defaults 0 0' | tee -a /etc/fstab",
+      "curl -fL https://releases.jfrog.io/artifactory/jfrog-rpms/jfrog.repo | tee /etc/yum.repos.d/jfrog.repo",
+      "dnf install -y jfrog-artifactory-oss",
+      "systemctl enable artifactory",
+      "systemctl start artifactory",
+      "chown -R artifactory:artifactory /var/opt/jfrog/artifactory",
     ]
   }
 }
