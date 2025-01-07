@@ -1,47 +1,47 @@
 resource "ibm_is_volume" "rhel-home-vsi-vol" {
-  name     = "${var.vsi_name}-home-vsi-vol"
+  name     = "${var.rhel_image}-home-vsi-vol"
   profile  = "general-purpose" # or "5iops-tier", "10iops-tier", etc.
   capacity = 10                # in GB
   zone     = "jp-tok-1"        # adjust to match your region/zone
 }
 
 resource "ibm_is_volume" "rhel-tmp-vsi-vol" {
-  name     = "${var.vsi_name}-tmp-vsi-vol"
+  name     = "${var.rhel_image}-tmp-vsi-vol"
   profile  = "general-purpose" # or "5iops-tier", "10iops-tier", etc.
   capacity = 10                # in GB
   zone     = "jp-tok-1"        # adjust to match your region/zone
 }
 
 resource "ibm_is_volume" "rhel-var-vsi-vol" {
-  name     = "${var.vsi_name}-var-vsi-vol"
+  name     = "${var.rhel_image}-var-vsi-vol"
   profile  = "general-purpose" # or "5iops-tier", "10iops-tier", etc.
   capacity = 10                # in GB
   zone     = "jp-tok-1"        # adjust to match your region/zone
 }
 
 resource "ibm_is_volume" "rhel-var-log-vsi-vol" {
-  name     = "${var.vsi_name}-var-log-vsi-vol"
+  name     = "${var.rhel_image}-var-log-vsi-vol"
   profile  = "general-purpose" # or "5iops-tier", "10iops-tier", etc.
   capacity = 10                # in GB
   zone     = "jp-tok-1"        # adjust to match your region/zone
 }
 
 resource "ibm_is_volume" "rhel-var-log-audit-vsi-vol" {
-  name     = "${var.vsi_name}-var-log-audit-vsi-vol"
+  name     = "${var.rhel_image}-var-log-audit-vsi-vol"
   profile  = "general-purpose" # or "5iops-tier", "10iops-tier", etc.
   capacity = 10                # in GB
   zone     = "jp-tok-1"        # adjust to match your region/zone
 }
 
 resource "ibm_is_volume" "rhel-var-tmp-vsi-vol" {
-  name     = "${var.vsi_name}-var-tmp-vsi-vol"
+  name     = "${var.rhel_image}-var-tmp-vsi-vol"
   profile  = "general-purpose" # or "5iops-tier", "10iops-tier", etc.
   capacity = 10                # in GB
   zone     = "jp-tok-1"        # adjust to match your region/zone
 }
 
 resource "ibm_is_volume" "rhel-dev-shm-audit-vsi-vol" {
-  name     = "${var.vsi_name}-dev-shm-audit-vsi-vol"
+  name     = "${var.rhel_image}-dev-shm-audit-vsi-vol"
   profile  = "general-purpose" # or "5iops-tier", "10iops-tier", etc.
   capacity = 10                # in GB
   zone     = "jp-tok-1"        # adjust to match your region/zone
