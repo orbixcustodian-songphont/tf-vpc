@@ -2,13 +2,13 @@
 resource "ibm_is_vpc" "vpc" {
   count = var.create_vpc && var.existing_vpc_id == "" ? 1 : 0
   name  = var.vpc_name
-  resource_group = coalesce(data.ibm_resource_group.resource-group-name.id,ibm_resource_group.resource-group-name[0].id)
+  resource_group = data.ibm_resource_group.resource-group-name.id
 }
 
 resource "ibm_is_security_group" "sg" {
   name = "${var.vpc_name}-sg"
   vpc  = local.vpc_id
-  resource_group = coalesce(data.ibm_resource_group.resource-group-name.id,ibm_resource_group.resource-group-name[0].id)
+  resource_group = data.ibm_resource_group.resource-group-name.id
   depends_on = [ ibm_is_vpc.vpc ]
 }
 
