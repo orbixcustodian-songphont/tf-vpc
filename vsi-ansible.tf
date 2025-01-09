@@ -25,7 +25,7 @@ resource ibm_is_instance ansible-vsi {
     - ansible-core
   runcmd:
     - [ "/bin/bash", "-c", "set -e && dnf update -y && dnf install git ansible-core -y && ansible-galaxy collection install community.general ansible.posix" ]
-    - [ "/bin/bash", "-c", "echo '${var.ssh_private_key}' > /root/.ssh/id_rsa && chmod 600 /root/.ssh/id_rsa" ]
+    - [ "/bin/bash", "-c", "echo '${var.ssh_private_key}' | base64 decode > /root/.ssh/id_rsa && chmod 600 /root/.ssh/id_rsa" ]
     - [dnf, makecache]
     - [dnf, -y, upgrade]
 EOT

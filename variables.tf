@@ -40,7 +40,13 @@ variable "workstation_public_ip" {
 }
 
 variable "ssh_private_key" {
-  description = "SSH Private Key"
+  description = "SSH Private Key in Base64 format"
+  type        = string
+  default     = ""
+}
+
+variable "ssh_public_key" {
+  description = "SSH Public Key in plain text"
   type        = string
   default     = ""
 }
