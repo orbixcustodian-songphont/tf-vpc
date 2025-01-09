@@ -48,5 +48,5 @@ variable "ssh_private_key" {
 variable "resource_group" {
   description = "IBM Cloud Resource Group"
   type        = string
-  default.    = "Default"
+  default     = "Default"
 }
