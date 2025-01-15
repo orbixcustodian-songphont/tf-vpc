@@ -16,6 +16,12 @@ variable "vsi_name" {
   default     = ""
 }
 
+variable "vsi_openvpn_name" {
+  description = "VSI Name"
+  type        = string
+  default     = ""
+}
+
 variable "create_vpc" {
   type    = bool
   default = false
@@ -28,7 +34,7 @@ variable "existing_vpc_id" {
 }
 
 variable "rhel_image" {
-  description = "RHEL Image ID"
+  description = "RHEL Image Name"
   type        = string
   default     = ""
 }

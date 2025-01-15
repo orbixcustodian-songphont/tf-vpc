@@ -1,7 +1,7 @@
 resource ibm_is_instance ansible-vsi {
   name    = var.vsi_name
   profile = "bx2-2x8"
-  image   = "r022-d5e7a447-981e-4ffe-906e-1ff648690bf9"
+  image   = local.rhel_image
   zone    = "jp-tok-1"
   vpc     = ibm_is_vpc.vpc[0].id
   resource_group = data.ibm_resource_group.resource-group-name.id
