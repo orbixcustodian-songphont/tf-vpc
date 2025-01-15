@@ -16,7 +16,7 @@ resource "ibm_is_instance" "rhel-vsi" {
   resource_group = data.ibm_resource_group.resource-group-name.id
   depends_on = [
     ibm_is_ssh_key.ssh-key, 
-    ibm_is_volume.rhel-home-vsi-vol, 
+    ibm_is_volume.rhel-vsi-vol, 
   ]
 
   # Attach primary network interface
