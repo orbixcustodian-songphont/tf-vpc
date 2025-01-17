@@ -77,9 +77,16 @@ resource "null_resource" "provision_rhel9_cis" {
     destination = "/tmp/rhel9-cis-level2-fix.sh"
   }
 
+  provisioner "file" {
+    source      = "./ansible_mount.sh"
+    destination = "/tmp/ansible_mount.sh"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/rhel9-cis-level2-fix.sh",
+      "chmod +x /tmp/ansible_mount.sh",
+      "/tmp/ansible_mount.sh",
       "/tmp/rhel9-cis-level2-fix.sh"
     ]
   }
