@@ -5,10 +5,15 @@ dnf update -y
 dnf upgrade -y
 
 # Install necessary packages
-dnf install -y cloud-utils-growpart xfsprogs
+dnf install -y cloud-utils-growpart xfsprogs authselect
 
 # create the directories
-mkdir -p /home && mkdir -p /tmp && mkdir -p /var && mkdir -p /var/log && mkdir -p /var/log/audit && mkdir -p /var/tmp
+mkdir -p /home
+mkdir -p /tmp
+mkdir -p /var 
+mkdir -p /var/log 
+mkdir -p /var/log/audit
+mkdir -p /var/tmp
 
 # Partition the disk
 parted /dev/vdd mklabel gpt
