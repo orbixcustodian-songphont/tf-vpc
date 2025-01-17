@@ -73,12 +73,12 @@ resource "null_resource" "provision_rhel9_cis" {
   }
 
   provisioner "file" {
-    source      = "./rhel9-cis-level2-fix.sh"
+    source      = "./scripts/rhel9-cis-level2-fix.sh"
     destination = "/tmp/rhel9-cis-level2-fix.sh"
   }
 
   provisioner "file" {
-    source      = "./ansible_mount.sh"
+    source      = "./scripts/ansible_mount.sh"
     destination = "/tmp/ansible_mount.sh"
   }
 
