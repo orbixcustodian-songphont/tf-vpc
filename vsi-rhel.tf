@@ -12,10 +12,9 @@ resource "ibm_is_instance" "rhel-vsi" {
   profile    = "bx2-2x8"
   image      = local.rhel_image
   zone       = "jp-tok-1"
-  vpc        = ibm_is_vpc.vpc[0].id
+  vpc        = var.vpc-id_ansible-node
   resource_group = data.ibm_resource_group.resource-group-name.id
   depends_on = [
-    ibm_is_ssh_key.ssh-key, 
     ibm_is_volume.rhel-vsi-vol, 
   ]
 
@@ -30,12 +29,12 @@ resource "ibm_is_instance" "rhel-vsi" {
 
   # Attach primary network interface
   primary_network_interface {
-    subnet = ibm_is_subnet.subnet_a.id
+    subnet = var.subnet_ansible-node
   }
 
   # Add SSH key
   keys = [
-    ibm_is_ssh_key.ssh-key.id
+    var.ssh_ansible-node
   ]
 }
 resource "ibm_is_instance_volume_attachment" "rhel-home-attach" {
