@@ -30,13 +30,13 @@ resource ibm_is_instance ansible-vsi {
 EOT
 }
 
-resource "ibm_is_virtual_network_interface" "is-vni-vsi" {
-  allow_ip_spoofing = true
-  auto_delete = false
-  enable_infrastructure_nat = true
-  name = "ansible-vni"
-  subnet = var.subnet_ansible-node
-}
+# resource "ibm_is_virtual_network_interface" "is-vni-vsi" {
+#   allow_ip_spoofing = true
+#   auto_delete = false
+#   enable_infrastructure_nat = true
+#   name = "ansible-vni"
+#   subnet = var.subnet_ansible-node
+# }
 
 # resource "ibm_is_instance_network_interface_floating_ip" "vni-test" {
 #   instance          = ibm_is_instance.ansible-vsi.id
