@@ -66,13 +66,13 @@ variable "resource_group" {
 variable "vpc-id_ansible-node" {
   description = "vpc id for ansible control node"
   type        = string
-  default     = "r022-d07ab81f-8684-48b9-a8ef-0fc16118af94"
+  default     = ""
 }
 
 variable "subnet_ansible-node" {
   description = "vpc for ansible control node"
   type        = string
-  default     = "02e7-5772c928-ed29-45c5-9405-e421827b211d"
+  default     = ""
 }
 
 variable "vpc-zone_ansible-node" {
@@ -84,19 +84,19 @@ variable "vpc-zone_ansible-node" {
 variable "ssh_ansible-node" {
   description = "ssh for ansible control node"
   type        = string
-  default     = "r022-2d885420-69a2-45f9-b0e7-155cf682c2dd"
+  default     = ""
 }
 
 # variable "vpc-id_rhel-node" {
 #   description = "vpc id for ansible control node"
 #   type        = string
-#   default     = "r022-d07ab81f-8684-48b9-a8ef-0fc16118af94"
+#   default     = ""
 # }
 
 # variable "subnet_rhel-node" {
 #   description = "vpc for ansible control node"
 #   type        = string
-#   default     = "02e7-5772c928-ed29-45c5-9405-e421827b211d"
+#   default     = ""
 # }
 
 # variable "vpc-zone_rhel-node" {
@@ -108,5 +108,5 @@ variable "ssh_ansible-node" {
 # variable "ssh_rhel-node" {
 #   description = "ssh for ansible control node"
 #   type        = string
-#   default     = "r022-2d885420-69a2-45f9-b0e7-155cf682c2dd"
+#   default     = ""
 # }
